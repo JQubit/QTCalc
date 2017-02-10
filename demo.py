@@ -13,15 +13,16 @@ m = {'GaAs': 0.063,
      'AlAs': 0.146,
      'InN': 0.11,
      'GaN': 0.20,
+     'Pt': 13,
      'InxGa1-xN': lambda x: 0.2 + x * (0.11 - 0.2),
      'InAs': 0.023}
 
 if __name__ == '__main__':
     plt.style.use('ggplot')
 
-    THICKNESS = 35
-    P = 1e-22
-    screening_length = 1e-9
+    THICKNESS = 3
+    P = 1e-20
+    screening_length = 1e-10
     EPS = 30
     space_charge = THICKNESS * nu.nm * P / (EPS * 2 * screening_length + THICKNESS * nu.nm)
     print(space_charge /P)
@@ -31,27 +32,28 @@ if __name__ == '__main__':
             screening_length=screening_length,
             space_charge=space_charge,
             potential=0.0,
-            effective_mass=0.063,
-            thickness=10
+            effective_mass=m['Pt'],
+            thickness=1
         ),
         Polarized(
-            potential=0.375,
-            effective_mass=m['AlxGa1-xAs'](.5),
+            potential=4.5,
+            effective_mass=0.5,
             thickness=THICKNESS),
         BandBended(
             side=0,
             screening_length=screening_length,
             space_charge=-space_charge,
             potential=0.0,
-            effective_mass=0.063,
-            thickness=10
+            effective_mass=m['Pt'],
+            thickness=1
         ),
     ]
     s = Structure(a, 200)
     s.plot_structure()
+    # exit()
     E = np.linspace(-1.0, 1.0, 200) * nu.eV
-    STEPS = 30
-    V = np.linspace(-10, 10, STEPS)
+    STEPS = 50
+    V = np.linspace(-0.1, 0.1, STEPS)
 
     a[0].set_space_charge(-space_charge)
     a[2].set_space_charge(space_charge)
