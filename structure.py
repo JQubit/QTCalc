@@ -150,17 +150,16 @@ class Structure:
             return 1 / (np.exp((U - Ef) / (sc.k * T)) + 1)
 
         coeff = sc.e * m_left / (2 * np.pi ** 2 * sc.hbar ** 3)
-        delta_fermi = lambda E: fermi_distribution(Ef_left, E) - fermi_distribution(Ef_right, E)
-        delta_fermi_net = fermi_distribution(Ef_left, E) * (1 - fermi_distribution(Ef_right, E))
+        delta_fermi_net = fermi_distribution(Ef_left, E)  - fermi_distribution(Ef_right, E)
+        # delta_fermi_net_rev = (1-fermi_distribution(Ef_left, E)) * (fermi_distribution(Ef_right, E))
+
         dE = E[1] - E[0]
 
-        # plt.plot(E, fermi_distribution(Ef_left, E) - fermi_distribution(Ef_right, E))
-        # plt.plot(E, delta_fermi_net)
-        # plt.show()
-        # exit()
+
         def outer_integration(idx):
             # inner_integral = quad(delta_fermi, Ex, np.inf)
             inner_integral_net = np.trapz(delta_fermi_net[idx:], dx=dE)
+            # inner_integral_net_rev = np.trapz(delta_fermi_net[idx:], dx=dE)
 
             return inner_integral_net
 

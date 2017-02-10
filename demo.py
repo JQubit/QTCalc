@@ -53,7 +53,7 @@ if __name__ == '__main__':
     # exit()
     E = np.linspace(-1.0, 1.0, 200) * nu.eV
     STEPS = 50
-    V = np.linspace(-0.1, 0.1, STEPS)
+    V = np.linspace(-0.01, 0.01, STEPS)
 
     a[0].set_space_charge(-space_charge)
     a[2].set_space_charge(space_charge)
